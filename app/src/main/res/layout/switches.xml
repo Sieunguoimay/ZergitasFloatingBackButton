@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="20dp"
+>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+    >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Show back button"
+                android:layout_weight="1"
+        />
+        <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sc_show_back_button"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+    >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Vibrate"
+                android:layout_weight="1"
+        />
+        <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sc_vibrate"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+    >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Attach to screen edge"
+                android:layout_weight="1"
+        />
+        <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sc_attach_to_edge"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+    >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Lock position"
+                android:layout_weight="1"
+        />
+        <androidx.appcompat.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/sc_lock_position"
+        />
+    </LinearLayout>
+</LinearLayout>
