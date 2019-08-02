@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                >
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_noti"
+    />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tv_noti_title"
+            android:layout_margin="5dp"
+            android:textSize="17sp"
+            android:textColor="@color/background_white"
+    />
+    <LinearLayout
+            android:layout_below="@+id/tv_noti_title"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:weightSum="4"
+    >
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:id="@+id/bt_noti_back"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:layout_weight="1"
+
+
+        >
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/back_ic"
+                    android:layout_gravity="center"
+                    android:clickable="false"
+            />
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+
+                android:id="@+id/bt_noti_home"
+                android:layout_weight="1"
+
+        >
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/home_ic"
+                    android:layout_gravity="center"
+                    android:clickable="false"
+            />
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+
+                android:id="@+id/bt_noti_recent"
+                android:layout_weight="1"
+        >
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/tab_ic"
+                    android:layout_gravity="center"
+                    android:clickable="false"
+            />
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+
+                android:id="@+id/bt_noti_setting"
+                android:layout_weight="1"
+        >
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/setting_ic"
+                    android:layout_gravity="center"
+                    android:clickable="false"
+            />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

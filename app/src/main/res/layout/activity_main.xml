@@ -1,46 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
-        android:orientation="vertical"
-        android:weightSum="1"
+        tools:context=".scenes.MainActivity"
+        android:background="@color/background_white"
 >
 
-    <RelativeLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
     >
-        <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_launcher_background"
-                android:id="@+id/iv_sample_view"
-        />
-    </RelativeLayout>
-
-    <include layout="@layout/switches"/>
-    <include layout="@layout/appearance"/>
-
-    <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="@color/colorPrimaryDark"
-            android:id="@+id/rl_reset_settings_button"
-    >
-        <TextView
-                android:layout_width="wrap_content"
+        <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reset settings"
-                android:layout_centerInParent="true"
-                android:layout_margin="20dp"
-                android:clickable="false"
-        />
-    </RelativeLayout>
-</LinearLayout>
+        >
+
+            <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/space_poster"
+                    android:background="@drawable/bg_setting"
+            />
+            <ImageView
+                    android:layout_width="170dp"
+                    android:layout_height="170dp"
+                    android:src="@drawable/setting_header"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="-10dp"
+            />
+            <LinearLayout
+                    android:layout_marginTop="-50dp"
+                    android:layout_below="@+id/space_poster"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+            >
+
+
+                <include layout="@layout/switches"/>
+                <include layout="@layout/appearance"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/round_cornor_rectangle_2"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:gravity="center_vertical"
+
+                >
+
+                <include layout="@layout/floating_button_chooser"/>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/round_corner_rectangle"
+                        android:id="@+id/rl_reset_settings_button"
+                >
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Reset settings"
+                            android:layout_centerInParent="true"
+                            android:layout_margin="10dp"
+                            android:clickable="false"
+                            android:textColor="@color/background_white"
+                    />
+                </RelativeLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

@@ -3,66 +3,125 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_margin="20dp"
+              android:layout_marginTop="10dp"
+              android:layout_marginBottom="10dp"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp"
+              android:background="@drawable/round_cornor_rectangle_2"
 >
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
     >
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Color"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
         />
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="6"
+                android:id="@+id/ll_color_palette"
         >
-            <ImageView
+            <RelativeLayout
+                    android:layout_height="@dimen/color_box_size"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/color_box_size"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_margin="5dp"
-            />
-            <ImageView
+                    android:gravity="center"
+                    android:id="@+id/iv_color_0"
+            >
+                <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/round_corner_rectangle_1"
+                        android:clickable="false"
+                />
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_height="@dimen/color_box_size"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/color_box_size"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_margin="5dp"
-            />
-            <ImageView
+                    android:gravity="center"
+                    android:id="@+id/iv_color_1"
+            >
+                <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/round_corner_rectangle_1"
+                        android:clickable="false"
+                />
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_height="@dimen/color_box_size"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/color_box_size"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_margin="5dp"
-            />
-            <ImageView
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:id="@+id/iv_color_2"
+            >
+                <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/round_corner_rectangle_1"
+                        android:clickable="false"
+                />
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_height="@dimen/color_box_size"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/color_box_size"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_margin="5dp"
-            />
-            <ImageView
+                    android:gravity="center"
+                    android:id="@+id/iv_color_3"
+            >
+                <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/round_corner_rectangle_1"
+                        android:clickable="false"
+                />
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_height="@dimen/color_box_size"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/color_box_size"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_margin="5dp"
-            />
-            <ImageView
+                    android:gravity="center"
+                    android:id="@+id/iv_color_4"
+            >
+                <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/round_corner_rectangle_1"
+                        android:clickable="false"
+                />
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_height="@dimen/color_box_size"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="@dimen/color_box_size"
-                    android:src="@mipmap/ic_launcher"
                     android:layout_margin="5dp"
-            />
+                    android:gravity="center"
+                    android:id="@+id/iv_color_5"
+            >
+                <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/round_corner_rectangle_1"
+                        android:clickable="false"
+                />
+            </RelativeLayout>
 
         </LinearLayout>
     </LinearLayout>
@@ -70,12 +129,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_margin="5dp"
     >
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Transparent"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
         />
         <androidx.appcompat.widget.AppCompatSeekBar
                 android:layout_width="match_parent"
@@ -83,6 +144,9 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/sb_transparent"
                 android:max="100"
+                android:progressDrawable="@drawable/seek_bar_progress"
+                android:minHeight="3dp"
+                android:maxHeight="3dp"
         />
     </LinearLayout>
 
@@ -90,12 +154,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_margin="5dp"
     >
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Size"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
         />
         <androidx.appcompat.widget.AppCompatSeekBar
                 android:layout_width="match_parent"
@@ -103,25 +169,36 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/sb_size"
                 android:max="100"
+                android:progressDrawable="@drawable/seek_bar_progress"
+                android:minHeight="3dp"
+                android:maxHeight="3dp"
         />
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="10dp"
     >
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Margin"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
         />
         <androidx.appcompat.widget.AppCompatSeekBar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:id="@+id/sb_margin"
-                android:max="100"
+                android:max="50"
+                android:progressDrawable="@drawable/seek_bar_progress"
+                android:minHeight="3dp"
+                android:maxHeight="3dp"
         />
     </LinearLayout>
 </LinearLayout>
