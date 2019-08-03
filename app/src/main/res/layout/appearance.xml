@@ -7,7 +7,7 @@
               android:layout_marginBottom="10dp"
               android:layout_marginLeft="20dp"
               android:layout_marginRight="20dp"
-              android:background="@drawable/round_cornor_rectangle_2"
+              android:background="@drawable/round_corner_rectangle_2"
 >
     <LinearLayout
             android:layout_width="match_parent"
@@ -32,94 +32,100 @@
                 android:id="@+id/ll_color_palette"
         >
             <RelativeLayout
-                    android:layout_height="@dimen/color_box_size"
+                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:id="@+id/iv_color_0"
+                    android:id="@+id/rl_color_0"
             >
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/round_corner_rectangle_1"
+                        android:src="@drawable/round_corner_color_chooser"
                         android:clickable="false"
+                        android:id="@+id/iv_color_0"
                 />
             </RelativeLayout>
             <RelativeLayout
-                    android:layout_height="@dimen/color_box_size"
+                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:id="@+id/iv_color_1"
+                    android:id="@+id/rl_color_1"
             >
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/round_corner_rectangle_1"
+                        android:src="@drawable/round_corner_color_chooser"
                         android:clickable="false"
+                        android:id="@+id/iv_color_1"
                 />
             </RelativeLayout>
             <RelativeLayout
-                    android:layout_height="@dimen/color_box_size"
+                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:gravity="center"
                     android:clickable="false"
-                    android:id="@+id/iv_color_2"
+                    android:id="@+id/rl_color_2"
             >
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/round_corner_rectangle_1"
+                        android:src="@drawable/round_corner_color_chooser"
                         android:clickable="false"
+                        android:id="@+id/iv_color_2"
                 />
             </RelativeLayout>
             <RelativeLayout
-                    android:layout_height="@dimen/color_box_size"
+                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:id="@+id/iv_color_3"
+                    android:id="@+id/rl_color_3"
             >
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/round_corner_rectangle_1"
+                        android:src="@drawable/round_corner_color_chooser"
                         android:clickable="false"
+                        android:id="@+id/iv_color_3"
                 />
             </RelativeLayout>
             <RelativeLayout
-                    android:layout_height="@dimen/color_box_size"
+                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:id="@+id/iv_color_4"
+                    android:id="@+id/rl_color_4"
             >
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/round_corner_rectangle_1"
+                        android:src="@drawable/round_corner_color_chooser"
                         android:clickable="false"
+                        android:id="@+id/iv_color_4"
                 />
             </RelativeLayout>
             <RelativeLayout
-                    android:layout_height="@dimen/color_box_size"
+                    android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:id="@+id/iv_color_5"
+                    android:id="@+id/rl_color_5"
             >
                 <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/round_corner_rectangle_1"
+                        android:src="@drawable/round_corner_color_chooser"
                         android:clickable="false"
+                        android:id="@+id/iv_color_5"
                 />
             </RelativeLayout>
 

@@ -15,6 +15,7 @@
             android:src="@drawable/back_ic"
             android:id="@+id/iv_floating_window_back"
             android:layout_margin="5dp"
+            android:contentDescription="@string/content_description_back"
     />
     <ImageView
             android:layout_width="match_parent"
@@ -23,6 +24,7 @@
             android:src="@drawable/home_ic"
             android:id="@+id/iv_floating_window_home"
             android:layout_margin="5dp"
+            android:contentDescription="@string/content_description_home"
     />
     <ImageView
             android:layout_width="match_parent"
@@ -31,6 +33,7 @@
             android:src="@drawable/tab_ic"
             android:id="@+id/iv_floating_window_recent"
             android:layout_margin="5dp"
+            android:contentDescription="@string/content_description_recent"
     />
     <ImageView
             android:layout_width="match_parent"
@@ -39,6 +42,6 @@
             android:src="@drawable/setting_ic"
             android:id="@+id/iv_floating_window_setting"
             android:layout_margin="5dp"
+            android:contentDescription="@string/content_description_setting"
     />
-
 </LinearLayout>

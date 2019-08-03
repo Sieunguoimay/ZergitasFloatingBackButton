@@ -79,14 +79,18 @@ class FloatingWindowNotification(
         //now we create a remoteViews that has assign all the intent action to the buttons of the notification layout
         //those intents will then be captured by the MusicPlayerService for controlling the mediaPlayer
         val remoteViews = RemoteViews(context.packageName,R.layout.notification_floating_window)
-        remoteViews.setOnClickPendingIntent(R.id.bt_noti_back,createPendingIntentWithAction(FloatingWindowService.FloatingBackServiceActions.BACK))
-        remoteViews.setOnClickPendingIntent(R.id.bt_noti_home,createPendingIntentWithAction(FloatingWindowService.FloatingBackServiceActions.HOME))
-        remoteViews.setOnClickPendingIntent(R.id.bt_noti_recent,createPendingIntentWithAction(FloatingWindowService.FloatingBackServiceActions.RECENT))
-        remoteViews.setOnClickPendingIntent(R.id.bt_noti_setting,createPendingIntentWithAction(FloatingWindowService.FloatingBackServiceActions.SETTING))
+        remoteViews.setOnClickPendingIntent(R.id.bt_noti_back,createPendingIntentWithAction(
+            FloatingWindowAccessibilityService.FloatingBackAccessibilityServiceActions.BACK))
+        remoteViews.setOnClickPendingIntent(R.id.bt_noti_home,createPendingIntentWithAction(
+            FloatingWindowAccessibilityService.FloatingBackAccessibilityServiceActions.HOME))
+        remoteViews.setOnClickPendingIntent(R.id.bt_noti_recent,createPendingIntentWithAction(
+            FloatingWindowAccessibilityService.FloatingBackAccessibilityServiceActions.RECENT))
+        remoteViews.setOnClickPendingIntent(R.id.bt_noti_setting,createPendingIntentWithAction(
+            FloatingWindowAccessibilityService.FloatingBackAccessibilityServiceActions.SETTING))
         return remoteViews
     }
     private fun createPendingIntentWithAction(action:String):PendingIntent{
-        val intent = Intent(context, FloatingWindowService::class.java)
+        val intent = Intent(context, FloatingWindowAccessibilityService::class.java)
         intent.action = action
         return PendingIntent.getService(context,0,intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }

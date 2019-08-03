@@ -1,14 +1,18 @@
 package com.example.floatingbackbutton.scenes
 
+import android.app.ActionBar
 import android.graphics.PorterDuff
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.example.floatingbackbutton.R
 import com.example.floatingbackbutton.contracts.MetadataContract
+import com.example.floatingbackbutton.services.FloatingWindowAccessibilityService
 import com.example.floatingbackbutton.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.appearance.*
@@ -28,6 +32,7 @@ class MetadataViewImplementation(var activity: MainActivity): MetadataContract.V
         ivTick = ImageView(activity)
         ivTick.layoutParams = ViewGroup.LayoutParams(Utils.DPToPX(30,activity),Utils.DPToPX(30,activity))
         ivTick.setImageResource(R.drawable.check_ic)
+
     }
     override fun showSavedMessage(what: String) {
     }
@@ -43,8 +48,15 @@ class MetadataViewImplementation(var activity: MainActivity): MetadataContract.V
         if(activity.serviceConnection.service!=null)
             activity.serviceConnection.service!!.floatingWindowView.updateViewOnColorChanged(color,activity)
 
-        activity.ivColors[currentColor].removeView(ivTick)
-        activity.ivColors[colorIndex].addView(ivTick)
+
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnColorChanged(color,activity)
+
+//        ivShadow.setColorFilter(ResourcesCompat.getColor(activity.resources,color,null))
+
+
+        activity.rlColors[currentColor].removeView(ivTick)
+        activity.rlColors[colorIndex].addView(ivTick)
 
         currentColor = colorIndex
     }
@@ -52,19 +64,29 @@ class MetadataViewImplementation(var activity: MainActivity): MetadataContract.V
     override fun updateViewOnTransparentChanged(transparent: Int) {
         if(activity.serviceConnection.service!=null)
             activity.serviceConnection.service!!.floatingWindowView.updateViewOnTransparentChanged(transparent)
+
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnTransparentChanged(transparent)
+
         activity.sb_transparent.progress = min(transparent, 100)
     }
 
     override fun updateViewOnSizeChanged(size: Int,visibleCount:Int) {
-        this.size = size*2
+        this.size = 30+size*2
         if(activity.serviceConnection.service!=null)
-            activity.serviceConnection.service!!.floatingWindowView.updateViewOnSizeChanged(size*2,visibleCount)
+            activity.serviceConnection.service!!.floatingWindowView.updateViewOnSizeChanged(30+size*2,visibleCount)
+
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnSizeChanged(30+size*2,visibleCount)
+
         activity.sb_size.progress = min(size, 100)
     }
 
-    override fun updateViewOnMarginChanged(margin: Int) {
+    override fun updateViewOnMarginChanged(margin: Int,visibleCount:Int) {
         if(activity.serviceConnection.service!=null)
             activity.serviceConnection.service!!.floatingWindowView.updateViewOnMarginChanged(margin)
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnMarginChanged(margin,visibleCount,size)
         activity.sb_margin.progress = min(margin, 50)
     }
 
@@ -90,35 +112,49 @@ class MetadataViewImplementation(var activity: MainActivity): MetadataContract.V
         if(activity.serviceConnection.service!=null)
             activity.serviceConnection.service!!.floatingWindowView.updateButtonVisibility(whichButton,state,visibleCount,size)
 
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateButtonVisibility(whichButton,state,visibleCount,size)
     }
 
 
     override fun updateViewOnToggleBackButton(state: Boolean) {
-        if(state){
-            if(activity.serviceConnection.service == null)
-                activity.serviceConnection.createBindAndStartService()
-        }else{
-            if(activity.serviceConnection.service != null)
-                activity.serviceConnection.unBindAndStopService()
-        }
+//        if(state){
+//            if(activity.serviceConnection.service == null)
+//                activity.serviceConnection.createBindAndStartService()
+//        }else{
+//            if(activity.serviceConnection.service != null)
+//                activity.serviceConnection.unBindAndStopService()
+//        }
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnToggleBackButton(state)
         activity.sc_show_back_button.isChecked = state
     }
 
     override fun updateViewOnToggleVibration(state: Boolean) {
         if(activity.serviceConnection.service != null)
             activity.serviceConnection.service!!.floatingWindowView.updateViewOnToggleVibration(state)
+
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnToggleVibration(state)
+
         activity.sc_vibrate.isChecked = state
     }
 
     override fun updateViewOnToggleAttachToEdge(state: Boolean) {
         if(activity.serviceConnection.service != null)
             activity.serviceConnection.service!!.floatingWindowView.updateViewOnToggleAttachToEdge(state)
+
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnToggleAttachToEdge(state)
         activity.sc_attach_to_edge.isChecked = state
     }
 
     override fun updateViewOnToggleLockPosition(state: Boolean) {
         if(activity.serviceConnection.service != null)
             activity.serviceConnection.service!!.floatingWindowView.updateViewOnToggleLockPosition(state)
+
+        if(FloatingWindowAccessibilityService.accessibilityServiceInstance!=null)
+            FloatingWindowAccessibilityService.accessibilityServiceInstance!!.floatingWindowView.updateViewOnToggleLockPosition(state)
         activity.sc_lock_position.isChecked = state
     }
 }

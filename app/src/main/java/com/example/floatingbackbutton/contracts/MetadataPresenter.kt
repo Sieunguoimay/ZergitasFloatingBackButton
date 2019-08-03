@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.floatingbackbutton.R
 import com.example.floatingbackbutton.contracts.MetadataPresenter.DefaultSettings.buttonDefaultVisibilities
 import com.example.floatingbackbutton.contracts.MetadataPresenter.SettingOptionNames.buttonNames
+import com.example.floatingbackbutton.services.FloatingWindowAccessibilityService
 import kotlin.math.acos
 
 private const val TAG = "METADATA_PRESENTER"
@@ -24,25 +25,24 @@ class MetadataPresenter(
         setMargin(DefaultSettings.MARGIN)
         resetButtonVisibilities()
 
-        toggleBackButton(DefaultSettings.SHOW_BACK_BUTTON)
+        //toggleBackButton(DefaultSettings.SHOW_BACK_BUTTON)
         toggleVibration(DefaultSettings.VIBRATE)
         toggleAttachToEdge(DefaultSettings.ATTACH_TO_EDGE)
         toggleLockPosition(DefaultSettings.LOCK_POSITION)
     }
 
     override fun loadSettings() {
+        view.updateViewOnToggleBackButton(model.getBoolean(SettingOptionNames.SHOW_BACK_BUTTON,DefaultSettings.SHOW_BACK_BUTTON))
+        view.updateViewOnToggleVibration(model.getBoolean(SettingOptionNames.VIBRATE,DefaultSettings.VIBRATE))
+        view.updateViewOnToggleAttachToEdge(model.getBoolean(SettingOptionNames.ATTACH_TO_EDGE,DefaultSettings.ATTACH_TO_EDGE))
+        view.updateViewOnToggleLockPosition(model.getBoolean(SettingOptionNames.LOCK_POSITION,DefaultSettings.LOCK_POSITION))
         loadButtonVisibilities()
 
         val colorIndex = model.getInt(SettingOptionNames.COLOR,DefaultSettings.COLOR)
         view.updateViewOnColorChanged(DefaultSettings.availableColors[colorIndex],colorIndex)
         view.updateViewOnTransparentChanged(model.getInt(SettingOptionNames.TRANSPARENT,DefaultSettings.TRANSPARENT))
         view.updateViewOnSizeChanged(model.getInt(SettingOptionNames.SIZE,DefaultSettings.SIZE),visibleButtonCount+if(buttonVisibilities[3]){1}else{0})
-        view.updateViewOnMarginChanged(model.getInt(SettingOptionNames.MARGIN,DefaultSettings.MARGIN))
-
-        view.updateViewOnToggleBackButton(model.getBoolean(SettingOptionNames.SHOW_BACK_BUTTON,DefaultSettings.SHOW_BACK_BUTTON))
-        view.updateViewOnToggleVibration(model.getBoolean(SettingOptionNames.VIBRATE,DefaultSettings.VIBRATE))
-        view.updateViewOnToggleAttachToEdge(model.getBoolean(SettingOptionNames.ATTACH_TO_EDGE,DefaultSettings.ATTACH_TO_EDGE))
-        view.updateViewOnToggleLockPosition(model.getBoolean(SettingOptionNames.LOCK_POSITION,DefaultSettings.LOCK_POSITION))
+        view.updateViewOnMarginChanged(model.getInt(SettingOptionNames.MARGIN,DefaultSettings.MARGIN),visibleButtonCount+if(buttonVisibilities[3]){1}else{0})
     }
 
 
@@ -63,7 +63,7 @@ class MetadataPresenter(
     }
 
     override fun setMargin(margin: Int) {
-        view.updateViewOnMarginChanged(margin)
+        view.updateViewOnMarginChanged(margin,visibleButtonCount+if(buttonVisibilities[3]){1}else{0})
         model.saveInt(SettingOptionNames.MARGIN,margin)
     }
 

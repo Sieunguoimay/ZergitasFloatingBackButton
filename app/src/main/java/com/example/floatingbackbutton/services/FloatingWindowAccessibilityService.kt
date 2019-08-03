@@ -1,64 +1,100 @@
 package com.example.floatingbackbutton.services
 
+import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PixelFormat
-import android.os.*
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import android.widget.RelativeLayout
+import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
-import com.example.floatingbackbutton.R
-import com.example.floatingbackbutton.scenes.MainActivity
-import com.example.floatingbackbutton.utils.Utils
-import android.os.IBinder
-import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.accessibility.AccessibilityNodeInfo
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import androidx.core.view.MotionEventCompat.getSource
+import com.example.floatingbackbutton.R
+import com.example.floatingbackbutton.contracts.MetadataPresenter
+import com.example.floatingbackbutton.scenes.MainActivity
+import java.nio.file.Files.size
 
 
-private const val TAG = "FLOATING_WINDOW_SERVICE"
-class FloatingWindowService: Service() {
-    inner class FloatingWindowServiceBinder: Binder(){
-        fun getServiceInstance():FloatingWindowService = this@FloatingWindowService
+
+
+
+private const val TAG = "FW_ACC_SERVICE"
+class FloatingWindowAccessibilityService:AccessibilityService(){
+
+
+
+    override fun onInterrupt() {
+
     }
-    var binder:FloatingWindowServiceBinder? = null
-    override fun onBind(p0: Intent?): IBinder? {
-        if(binder==null) binder = FloatingWindowServiceBinder()
-        return binder
+
+    override fun onAccessibilityEvent(p0: AccessibilityEvent?) {
+//        var eventText: String = when (p0?.eventType) {
+//            AccessibilityEvent.TYPE_VIEW_CLICKED -> "Clicked: "
+//            AccessibilityEvent.TYPE_VIEW_FOCUSED -> "Focused: "
+//            else -> ""
+//        }
+//
+//        eventText += p0?.contentDescription
+//        Toast.makeText(applicationContext,eventText,Toast.LENGTH_SHORT).show()
+//        Log.d(TAG,eventText)
+    }
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        accessibilityServiceInstance = this
+        initView()
+        setting()
+        Log.d(TAG,"Accessibility service connected")
     }
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        when(intent?.action){
-            FloatingBackServiceActions.BACK->back()
-            FloatingBackServiceActions.HOME->home()
-            FloatingBackServiceActions.RECENT->recent()
-            FloatingBackServiceActions.SETTING->setting()
-        }
         applicationContext.sendBroadcast(Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS))
-        return START_STICKY
+        when(intent?.action){
+            FloatingBackAccessibilityServiceActions.BACK->{
+                back()
+            }
+            FloatingBackAccessibilityServiceActions.HOME->home()
+            FloatingBackAccessibilityServiceActions.RECENT->recent()
+            FloatingBackAccessibilityServiceActions.SETTING->setting()
+        }
+        return Service.START_STICKY
+    }
+
+
+    override fun onUnbind(intent: Intent?): Boolean {
+        accessibilityServiceInstance = null
+        Log.d(TAG,"Accessibility service disconnected")
+        return super.onUnbind(intent)
     }
 
     companion object{
-        var serviceRunning = false
+        @SuppressLint("StaticFieldLeak")
+        var accessibilityServiceInstance:FloatingWindowAccessibilityService?= null
+        var showBackButton  = true
     }
-
 
     lateinit var windowManager: WindowManager
     lateinit var windowParams: WindowManager.LayoutParams
     lateinit var rlViewLayout: RelativeLayout
+
     var x:Int = 0
     var y:Int = 0
     var touchX:Float = 0.0f
     var touchY:Float = 0.0f
-    private var buttonWidth = 60
     private var touchToMove:Boolean = false
 
-    lateinit var floatingWindowView:FloatingWindowView
+    lateinit var floatingWindowView:FloatingWindowView2
     lateinit var llFloatingWindow: LinearLayout
     lateinit var ivBackButton: ImageView
     lateinit var ivHomeButton: ImageView
@@ -66,36 +102,29 @@ class FloatingWindowService: Service() {
     lateinit var ivSettingButton: ImageView
 
     lateinit var notification: FloatingWindowNotification
-    lateinit var vibrator:Vibrator
+    lateinit var vibrator: Vibrator
     var vibrateEnabled:Boolean = false
+    var isViewDetached:Boolean = true
 
-    override fun onDestroy() {
-        Log.d(TAG,"FloatingWindowService destroyed")
-        serviceRunning = false
-        notification.stopForeground()
-        super.onDestroy()
-    }
 
-    @SuppressLint("PrivateApi")
-    override fun onCreate() {
-        super.onCreate()
-        Log.d(TAG,"FloatingWindowService created")
-        serviceRunning = true
 
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initView(){
         notification = FloatingWindowNotification(applicationContext,this)
         notification.startForeground()
         vibrator = getSystemService(Context.VIBRATOR_SERVICE)as Vibrator
 
-        initView()
 
-    }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun initView(){
         //Utils.DPToPX(buttonWidth,applicationContext),Utils.DPToPX(buttonWidth*4,applicationContext)
-        windowParams = WindowManager.LayoutParams(WRAP_CONTENT,WRAP_CONTENT,
+        windowParams = WindowManager.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY}
-            else { WindowManager.LayoutParams.TYPE_SYSTEM_ALERT} ,WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,PixelFormat.TRANSLUCENT)
+            else { WindowManager.LayoutParams.TYPE_SYSTEM_ALERT} ,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT)
         windowParams.x = 0
         windowParams.y = 0
         windowParams.gravity = Gravity.CENTER or Gravity.CENTER
@@ -103,12 +132,27 @@ class FloatingWindowService: Service() {
 
         rlViewLayout = RelativeLayout(applicationContext)
         rlViewLayout.setBackgroundColor(Color.argb(0,0,255,255))
-        rlViewLayout.layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT)
+        rlViewLayout.layoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.MATCH_PARENT)
         rlViewLayout.setOnTouchListener(onTouchListener)
+        rlViewLayout.addOnAttachStateChangeListener(object:View.OnAttachStateChangeListener{
+            override fun onViewDetachedFromWindow(p0: View?) {
+                Log.d(TAG,"View detached from window manager")
+                isViewDetached = true
+            }
+
+            override fun onViewAttachedToWindow(p0: View?) {
+                Log.d(TAG,"View attached from window manager")
+                isViewDetached = false
+            }
+        })
+        isViewDetached = false
 
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        windowManager.addView(rlViewLayout,windowParams)
 
+        if(showBackButton)
+            windowManager.addView(rlViewLayout,windowParams)
 
 
 
@@ -125,9 +169,8 @@ class FloatingWindowService: Service() {
         ivHomeButton.setOnTouchListener(onTouchListener)
         ivRecentButton.setOnTouchListener(onTouchListener)
         ivSettingButton.setOnTouchListener(onTouchListener)
-        floatingWindowView = FloatingWindowView(this)
+        floatingWindowView = FloatingWindowView2(this)
     }
-
     private val onTouchListener = View.OnTouchListener { p0, p1 ->
 
         when(p1.action){
@@ -186,22 +229,25 @@ class FloatingWindowService: Service() {
         }
         true
     }
-
     private fun back(){
         Log.d(TAG,"Back")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            performGlobalAction(GLOBAL_ACTION_BACK)
+        }
         vibrate()
     }
     private fun home(){
         Log.d(TAG,"Home")
-
-        val i = Intent(Intent.ACTION_MAIN)
-        i.addCategory(Intent.CATEGORY_HOME)
-        startActivity(i)
-
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            performGlobalAction(GLOBAL_ACTION_HOME)
+        }
         vibrate()
     }
     private fun recent(){
         Log.d(TAG,"Recent")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            performGlobalAction(GLOBAL_ACTION_RECENTS)
+        }
         vibrate()
     }
     private fun setting(){
@@ -223,11 +269,7 @@ class FloatingWindowService: Service() {
 
     }
 
-    fun stopFloatingWindowService(){
-        windowManager.removeView(rlViewLayout)
-        stopSelf()
-    }
-    object FloatingBackServiceActions {
+    object FloatingBackAccessibilityServiceActions {
         const val BACK = "floatingBackButton.BACK"
         const val HOME = "floatingBackButton.HOME"
         const val RECENT = "floatingBackButton.RECENT"

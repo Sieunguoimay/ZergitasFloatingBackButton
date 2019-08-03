@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FloatingBackButton</string>
+    <string name="accessibility_service_description">floating window accessibility service</string>
+    <string name="content_description_back">content description back</string>
+    <string name="content_description_home">content description home</string>
+    <string name="content_description_recent">content description recent</string>
+    <string name="content_description_setting">content description setting</string>
 </resources>

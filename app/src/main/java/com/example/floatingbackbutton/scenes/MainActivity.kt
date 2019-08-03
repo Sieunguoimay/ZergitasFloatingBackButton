@@ -1,9 +1,6 @@
 package com.example.floatingbackbutton.scenes
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,11 +22,13 @@ import android.provider.Settings
 import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
-import com.bumptech.glide.Glide
 import com.example.floatingbackbutton.services.FloatinWindowServiceConnection
+import com.example.floatingbackbutton.services.FloatingWindowAccessibilityService.Companion.accessibilityServiceInstance
 import kotlinx.android.synthetic.main.floating_button_chooser.*
+
+
 
 
 private const val TAG = "MAIN_ACTIVITY"
@@ -47,10 +46,14 @@ class MainActivity : AppCompatActivity()
         Log.d(TAG,"Hello Floating Back Button")
         checkPermission()
         serviceConnection = FloatinWindowServiceConnection(this,serviceConnectionCallback)
-        serviceConnection.bindServiceIfExistsOnCreate()
+        //serviceConnection.bindServiceIfExistsOnCreate()
         initView()
     }
 
+    override fun onStart() {
+        super.onStart()
+        openAccessibilityServiceSetting()
+    }
     override fun onStop(){
         Log.d(TAG,"Floating Back Button Stopped")
         super.onStop()
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity()
 
     override fun onDestroy() {
         Log.d(TAG,"Goodbye Floating Back Button")
-        serviceConnection.unBindOnDestroyIfRunning()
+        //serviceConnection.unBindOnDestroyIfRunning()
         super.onDestroy()
     }
 
@@ -68,6 +71,18 @@ class MainActivity : AppCompatActivity()
                 val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
                 startActivityForResult(intent, 0)
             }
+        }
+    }
+    private fun openAccessibilityServiceSetting(){
+        if(accessibilityServiceInstance == null){
+            val dialog = AlertDialog.Builder(this)
+                .setTitle("Permission Required")
+                .setMessage("Turn on Accessibility Service to use this app")
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes) { dialog, which ->
+                    dialog.dismiss()
+                    startActivityForResult(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS), 0)
+                }.show()
         }
     }
 
@@ -81,13 +96,15 @@ class MainActivity : AppCompatActivity()
 
     private val onClickListener = View.OnClickListener { p0 ->
         when(p0?.id){
-            rl_reset_settings_button.id ->metadataPresenter.resetSettings()
-            iv_color_0.id->metadataPresenter.setColor(0)
-            iv_color_1.id->metadataPresenter.setColor(1)
-            iv_color_2.id->metadataPresenter.setColor(2)
-            iv_color_3.id->metadataPresenter.setColor(3)
-            iv_color_4.id->metadataPresenter.setColor(4)
-            iv_color_5.id->metadataPresenter.setColor(5)
+            rl_reset_settings_button.id ->{
+                metadataPresenter.resetSettings()
+            }
+            rl_color_0.id->metadataPresenter.setColor(0)
+            rl_color_1.id->metadataPresenter.setColor(1)
+            rl_color_2.id->metadataPresenter.setColor(2)
+            rl_color_3.id->metadataPresenter.setColor(3)
+            rl_color_4.id->metadataPresenter.setColor(4)
+            rl_color_5.id->metadataPresenter.setColor(5)
 
             iv_check_box_back.id->metadataPresenter.setButtonVisibility(0)
             iv_check_box_home.id->metadataPresenter.setButtonVisibility(1)
@@ -131,7 +148,8 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-    lateinit var ivColors: Array<RelativeLayout>
+    lateinit var rlColors: Array<RelativeLayout>
+    lateinit var ivColors: Array<ImageView>
 
     private fun initView(){
         metadataPresenter = MetadataPresenter(
@@ -160,7 +178,15 @@ class MainActivity : AppCompatActivity()
             iv_color_4,
             iv_color_5
         )
-        for((i,v)in ivColors.withIndex()){
+        rlColors = arrayOf(
+            rl_color_0,
+            rl_color_1,
+            rl_color_2,
+            rl_color_3,
+            rl_color_4,
+            rl_color_5
+        )
+        for((i,v)in rlColors.withIndex()){
             v.setOnClickListener(onClickListener)
             (v.getChildAt(0) as ImageView).setColorFilter(ResourcesCompat.getColor(resources,MetadataPresenter.DefaultSettings.availableColors[i],null))
         }

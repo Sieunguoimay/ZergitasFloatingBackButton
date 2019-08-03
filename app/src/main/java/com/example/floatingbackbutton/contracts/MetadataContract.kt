@@ -9,7 +9,7 @@ class MetadataContract {
         fun updateViewOnColorChanged(color:Int,colorIndex: Int)
         fun updateViewOnTransparentChanged(transparent: Int)
         fun updateViewOnSizeChanged(size:Int,visibleCount:Int)
-        fun updateViewOnMarginChanged(margin: Int)
+        fun updateViewOnMarginChanged(margin: Int,visibleCount:Int)
 
         fun updateViewOnToggleBackButton(state:Boolean)
         fun updateViewOnToggleVibration(state:Boolean)
