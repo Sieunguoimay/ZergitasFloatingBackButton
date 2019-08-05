@@ -22,16 +22,16 @@ class FloatingWindowNotification(
 
     init{
         createNotificationChannel()
-        val intent = Intent(context, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+
+//        val intent = Intent(applicationContext, MainActivity::class.java)
+//            .apply { flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK }
+//        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.noti_home_ic)
             .setContent(createRemoteViews())
             .setCustomBigContentView(createRemoteViews())
-            .setContentIntent(pendingIntent)
+//            .setContentIntent(pendingIntent)
             .setContentTitle("Floating back button active")
             .setOnlyAlertOnce(true)
 
